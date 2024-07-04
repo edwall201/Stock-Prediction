@@ -20,7 +20,7 @@ else:
     train_ds, test_ds = ds[0:int(len(ds) * 0.80)], ds[int(len(ds) * 0.80):len(ds)]
 
     # defining training set taking column 'open'
-    train_set = train_ds.loc[:, ["開盤價"]].values
+    train_set = train_ds.loc[:, ["Opening prices"]].values
 
 
     # applying feature scaling,Normalization is preferred in RNN
