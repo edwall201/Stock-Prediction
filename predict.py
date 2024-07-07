@@ -81,7 +81,7 @@ else:
 
     # inputs contain 60 previous values of the first element of test_ds
     # bcause for prediction of first values of test_ds we need 60 prior values
-    ds_total = pd.concat((train_ds["開盤價"], test_ds["開盤價"]), axis=0)
+    ds_total = pd.concat((train_ds["Opening prices"], test_ds["Opening prices"]), axis=0)
 
     inputs = ds_total[(len(ds_total) - len(test_ds) - predictdays):].values
 
