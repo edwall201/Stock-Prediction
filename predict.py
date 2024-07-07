@@ -40,3 +40,69 @@ else:
 
     x_train = np.array(x_train)
     y_train = np.array(y_train)
+
+    # here reshape(batch_size,timesteps,input_dim)
+    x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
+
+    # building the RNN
+    rnn = keras.models.Sequential()
+
+    # adding first layer of LSTM
+    rnn.add(keras.layers.LSTM(units=50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+    rnn.add(keras.layers.Dropout(0.5))
+
+    # adding second layer of LSTM
+    rnn.add(keras.layers.LSTM(units=50, return_sequences=True))
+    rnn.add(keras.layers.Dropout(0.5))
+
+    # adding third layer of LSTM
+    rnn.add(keras.layers.LSTM(units=50, return_sequences=True))
+    rnn.add(keras.layers.Dropout(0.5))
+
+    # adding fourth layer of LSTM
+    rnn.add(keras.layers.LSTM(units=50))
+    rnn.add(keras.layers.Dropout(0.5))
+
+    # adding output layer of LSTM
+    rnn.add(keras.layers.Dense(units=1))
+
+    # compiling the model
+    rnn.compile(optimizer='adam', loss='mean_squared_error')
+
+    # rnn.summary()
+
+    # training the model
+    rnn.fit(x_train, y_train, epochs=30, batch_size=60)
+
+    rnn.save("1310.h5")
+
+    # defining y_test(actual values)
+    y_test = test_ds.iloc[:, 1:2].values
+
+    # inputs contain 60 previous values of the first element of test_ds
+    # bcause for prediction of first values of test_ds we need 60 prior values
+    ds_total = pd.concat((train_ds["開盤價"], test_ds["開盤價"]), axis=0)
+
+    inputs = ds_total[(len(ds_total) - len(test_ds) - predictdays):].values
+
+    inputs = inputs.reshape(-1, 1)
+
+    inputs = sc.transform(inputs)
+
+    # creating a x_test
+    x_test = []
+
+    for i in range(predictdays, predictdays + int(len(ds) * 0.2 + 1)):
+        x_test.append(inputs[i - predictdays:i, 0])
+    x_test = np.array(x_test)
+    # reshaping x_test for prediction
+    # here reshape(batch_size,timesteps,input_dim)
+    x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], 1)
+
+    # print(x_test.shape)
+    y_pred = rnn.predict(x_test)
+    y_pred = sc.inverse_transform(y_pred)
+
+    y_predList=y_pred.tolist()
+    y_testList=y_test.tolist()
+    PredictTestList=[]
