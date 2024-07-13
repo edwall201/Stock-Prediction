@@ -106,3 +106,24 @@ else:
     y_predList=y_pred.tolist()
     y_testList=y_test.tolist()
     PredictTestList=[]
+
+    for i in range(0, len(y_testList)):
+        PredictTestList.append([y_testList[i][0], y_predList[i][0]])
+    OutputCSV(PredictTestList)
+
+
+
+
+
+
+    plt.figure(figsize=(12.8, 9.6))
+    plt.plot(y_test, color='red', label='Real Stock Price')
+    plt.plot(y_pred, color='blue', label='Predicted Stock Price')
+
+    plt.title('1310 Price Prediction')
+    plt.xlabel('Time')
+    plt.ylabel('Stock Price')
+    plt.legend()
+    plt.savefig("1310.png")
+    plt.show()
+    plt.cla()
