@@ -1,6 +1,5 @@
-
+# 2021 Coding365 Project
 # AI Stock Prediction and Machine Learning Analysis
-
 
 ## Research Objective
 Utilize LSTM models to predict short-term stock price trends.
