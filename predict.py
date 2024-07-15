@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow import keras
+from sklearn.preprocessing import MinMaxScaler
+
 
 def OutputCSV(SAMPLE_List):
     name=["Exact prices","Predict prices"]
@@ -18,14 +20,9 @@ if (int(len(ds) * 0.20) < (predictdays + 1)):
     addnotuse.close()
 else:
     train_ds, test_ds = ds[0:int(len(ds) * 0.80)], ds[int(len(ds) * 0.80):len(ds)]
-
     # defining training set taking column 'open'
     train_set = train_ds.loc[:, ["Opening prices"]].values
-
-
     # applying feature scaling,Normalization is preferred in RNN
-    from sklearn.preprocessing import MinMaxScaler
-
     sc = MinMaxScaler(feature_range=(0, 1))
     scaled_train_set = sc.fit_transform(train_set)
 
