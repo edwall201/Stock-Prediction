@@ -26,6 +26,8 @@ Processing data using numpy and pandas.
 - Normalizing the data.
 - Implementing a 4-layer LSTM model for prediction.
 
+### Result
+- ![alt text](image.png)
 ### Results & Improvements
 - Comparing prediction results with actual data.
 - Observing that the LSTM model might not perform well due to possibly unsuitable training data or lack of consideration for other market factors.
